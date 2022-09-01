@@ -1,12 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+<body>
 <h1>Books</h1>
+<table> <thead>
+  <tr> <th>Title</th> <th>Body</th> <th colspan="3"></th>
+ </tr>
+ </thead>
 
-<% @books.each do |book| %>
+  <tbody>
+    <% @books.each do |book| %>
+  <tr>
+   <td><%= book.title %></td>
+   <td><%= book.body %></td>
+    <td><span><%= link_to "show", "/books/#{book.id}" %></span></td>
+
+  </tr>
+ <% end %>
+  </table>
+  </body>
+</html>
 
 
+  <h1>New book</h1>
 
-  <p>タイトル</p>
-   <span>
-    <%= link_to book.title, book_path(book.id) %>
-  </span>
-
+  <% if @book.errors.any? %>
+   <%= @book.errors.count %>件のエラーが発生しました
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
 <% end %>
+
+
+<%= form_with model: @book, url: '/books', method: :post do |f| %>
+  <h4>Title</h4>
+  <%= f.text_field :title %>
+
+  <h4>body</h4>
+  <%= f.text_area :body %>
+
+  <%= f.submit 'Create book' %>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+
